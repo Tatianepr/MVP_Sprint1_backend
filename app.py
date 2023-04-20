@@ -158,7 +158,7 @@ def del_despesa(query: DespesaBuscaSchema):
         return {"mesage": error_msg}, 404
 
 
-@app.get('/atualiza', tags=[despesa_tag],
+@app.put('/despesa', tags=[despesa_tag],
          responses={"200": DespesaDelSchema, "404": ErrorSchema})
 def atualiza_despesa(query: DespesaBuscaSchema):
     """Atualiza uma despesa a partir do nome informado. Marca uma despesa como paga ou não paga.
