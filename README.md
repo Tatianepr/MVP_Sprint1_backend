@@ -1,9 +1,16 @@
 # Minha API
 
-Este é o MVP da sprint 1 do custo de **Engenharia de Software** da **PUC-Rio**
+Este é o XXX da sprint XXX do custo de **Engenharia de Software** da **XXXX**
 
-O objetivo aqui é disponibilizar o projeto MVP, onde foi desenvolvido um controle simples de despesas.
+O objetivo aqui é disponibilizar o projeto XXXX, onde foi desenvolvido um controle simples de despesas.
 
+## Principais APIs
+
+1) DELETE - despesa
+2) GET - despesa
+3) POST -despesa
+4) PUT - despesa
+5) GET - despesas
 ---
 ## Como executar 
 
