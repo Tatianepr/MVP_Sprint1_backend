@@ -26,6 +26,13 @@ class DespesaBuscaSchema(BaseModel):
     """
     descricao: str = "inglês"
 
+class DespesaBuscaEdicaoSchema(BaseModel):
+    """ Define como deve ser a estrutura que representa a busca para edição da despesa. 
+    """
+    id: int = 1
+    descricao: str = "inglês"
+    valor: float = 12.50
+    data_vencimento: date = datetime.strptime('13/04/2023', '%d/%m/%Y').date()
 
 class ListagemDespesasSchema(BaseModel):
     """ Define como uma listagem de produtos será retornada.
@@ -40,6 +47,7 @@ def apresenta_despesas(despesas: List[Despesa]):
     result = []
     for despesa in despesas:
         result.append({
+            "id":despesa.id,
             "descricao": despesa.descricao,
             "valor": despesa.valor,
             "pago": despesa.pago,
@@ -57,7 +65,7 @@ class DespesaViewSchema(BaseModel):
     valor: float = 12.50
     pago: bool = False
     data_vencimento: date = datetime.strptime('13/04/2023', '%d/%m/%Y').date()
-    datetime.strftime
+   
 
 
 class DespesaDelSchema(BaseModel):

@@ -1,4 +1,5 @@
 # openapi3 - framework baseado no Flask que verifica dados e gera documentação automatizada
+from flask import Flask
 from flask_openapi3 import OpenAPI, Info, Tag
 from flask import redirect
 from urllib.parse import unquote
@@ -9,7 +10,7 @@ from sqlalchemy import asc
 from model import Session, Despesa
 from logger import logger
 from schemas import *
-from schemas.despesa import ListagemDespesasSchema
+from schemas.despesa import ListagemDespesasSchema, DespesaBuscaEdicaoSchema
 from flask_cors import CORS
 
 info = Info(title="Minha API", version="1.0.0")
@@ -158,9 +159,9 @@ def del_despesa(query: DespesaBuscaSchema):
         return {"mesage": error_msg}, 404
 
 
-@app.put('/despesa', tags=[despesa_tag],
+@app.put('/paga', tags=[despesa_tag],
          responses={"200": DespesaDelSchema, "404": ErrorSchema})
-def atualiza_despesa(query: DespesaBuscaSchema):
+def paga_despesa(query: DespesaBuscaSchema):
     """Atualiza uma despesa a partir do nome informado. Marca uma despesa como paga ou não paga.
 
     """
@@ -178,10 +179,48 @@ def atualiza_despesa(query: DespesaBuscaSchema):
         session.commit()
         # retorna a representação da mensagem de confirmação
         logger.debug(f"Atualizando despesa #{despesa_descricao}")
-        return {"mesage": "Despesa atualizada", "id": despesa_descricao}
+        return {"mesage": "Despesa atualizada", "descricao": despesa_descricao}
     else:
         # se o produto não foi encontrado
         error_msg = "Despesa não encontrado na base :/"
         logger.warning(
             f"Erro ao atualizar despesa #'{despesa_descricao}', {error_msg}")
+        return {"mesage": error_msg}, 404
+
+@app.put('/despesa', tags=[despesa_tag], 
+         responses={"200": DespesaViewSchema, "404": ErrorSchema})
+def edita_despesa(query: DespesaBuscaEdicaoSchema):
+    """Atualiza uma despesa a partir do nome informado. Marca uma despesa como paga ou não paga.
+
+    """
+
+    despesa_id = query.id
+    despesa_descricao = query.descricao
+    despesa_valor = query.valor
+    despesa_vencimento = query.data_vencimento
+
+
+    print(despesa_descricao)
+    
+    logger.debug(f"Atualizando dados sobre despesa #{despesa_id}")
+    # criando conexão com a base
+    session = Session()
+    # fazendo a remoção
+    despesa = session.query(Despesa).filter(
+        Despesa.id == despesa_id).first()
+
+    if despesa:
+        despesa.descricao =  despesa_descricao
+        despesa.valor = despesa_valor
+        despesa.data_vencimento = despesa_vencimento
+        session.commit()
+        # retorna a representação da mensagem de confirmação
+        logger.debug(f"Atualizando despesa #{despesa_id}")
+        return {"mesage": "Despesa atualizada com sucesso", "despesa": apresenta_despesa(despesa)}, 200
+ 
+    else:
+        # se o produto não foi encontrado
+        error_msg = "Despesa não encontrado na base :/"
+        logger.warning(
+            f"Erro ao atualizar despesa #'{despesa_id}', {error_msg}")
         return {"mesage": error_msg}, 404
