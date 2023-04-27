@@ -113,7 +113,7 @@ def apresenta_despesa(despesa: Despesa, categoria: Categoria=None):
             "categoria_id": despesa.categoria
         }
 
-def retorna_despesa(despesa: tuple[Despesa, Categoria]):
+def retorna_despesa(despesa):
     """ Retorna uma representação da despesa seguindo o schema definido em
         ProdutoViewSchema.
     """
