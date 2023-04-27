@@ -13,7 +13,7 @@ https://finance-tati.onrender.com
 3) POST -/despesa
 4) PUT - /despesa e /paga
 5) GET - /despesas
-6) POST - /categoria
+6) POST - /categoria (cadastrar categorias primeiro)
 7) GET - /categorias
 ---
 ## Como executar 
