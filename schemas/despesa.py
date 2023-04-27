@@ -57,7 +57,8 @@ class ListagemDespesasSchema(BaseModel):
     despesas: List[DespesaViewSchema]
 
 
-def apresenta_despesas(despesas: List[tuple[Despesa, Categoria]]):
+#def apresenta_despesas(despesas: List[tuple[Despesa, Categoria]]):
+def apresenta_despesas(despesas):
     """ Retorna uma representação da despesa seguindo o schema definido em
         DespesaViewSchema.
     """
